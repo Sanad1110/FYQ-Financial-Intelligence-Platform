@@ -20,20 +20,36 @@ try:
 except ImportError:
     HAS_OPENPYXL = False
 
-from financial_engine import (
+from core.financial_engine import (
     IncomeStatement, BalanceSheet, CashFlow,
-    FinancialRatios, FinancialScorecard, RiskAnalysis, SmartRecommendations,
-    MultiYearComparison, BusinessValuation
+    FinancialRatios, FinancialScorecard, RiskAnalysis,
+    SmartRecommendations, MultiYearComparison,
+    BusinessValuation
 )
-from engines import (
-    BudgetEngine, ForecastEngine, KPIEngine, VarianceEngine,
-    RiskEngine, ConsolidationEngine, DashboardEngine
-)
-from exporters_wrapper import ExcelExporter, PPTExporter, PDFExporter
-from decision_intelligence import validate_payload, executive_summary, scenario_analysis, canonical, benchmark_compare, sector_benchmark_reference, js
-from smart_import import profile_workbook
-import client_store
 
+from core.engines import (
+    BudgetEngine, ForecastEngine, KPIEngine,
+    VarianceEngine, RiskEngine,
+    ConsolidationEngine, DashboardEngine
+)
+
+from exporters.exporters_wrapper import (
+    ExcelExporter, PPTExporter, PDFExporter
+)
+
+from core.decision_intelligence import (
+    validate_payload,
+    executive_summary,
+    scenario_analysis,
+    canonical,
+    benchmark_compare,
+    sector_benchmark_reference,
+    js
+)
+
+from services.smart_import import profile_workbook
+
+from database import client_store
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 12 * 1024 * 1024  # 12 MB
 app.config['JSON_SORT_KEYS'] = False

@@ -451,7 +451,7 @@ def export_full_report(app, output_path: str):
 
     # ─── النسب المالية + التحليلات المتقدمة ───
     if app.income_data and app.balance_data:
-        from financial_engine import FinancialRatios
+        from core.financial_engine import FinancialRatios
         ratios = FinancialRatios(app.income_data, app.balance_data, app.cashflow_data, getattr(app, 'sector', ''))
         all_ratios = ratios.get_all_ratios()
         interpretations = ratios.get_interpretation()
@@ -564,7 +564,7 @@ def export_full_report(app, output_path: str):
 
     # ─── التقييم والمخاطر والتوصيات ───
     if app.income_data and app.balance_data:
-        from financial_engine import FinancialScorecard, RiskAnalysis, SmartRecommendations
+        from core.financial_engine import FinancialScorecard, RiskAnalysis, SmartRecommendations
 
         inc = app.income_data
         bs  = app.balance_data

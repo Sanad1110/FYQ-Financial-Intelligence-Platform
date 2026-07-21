@@ -606,7 +606,7 @@ class PPTExporter:
             # PPT-only canonical advanced-analysis bridge.
             # Recompute EVA and Altman from the same FinancialRatios engine used
             # by the validated report path; no engine/API/PDF behavior is changed.
-            from financial_engine import IncomeStatement, BalanceSheet, FinancialRatios
+            from core.financial_engine import IncomeStatement, BalanceSheet, FinancialRatios
 
             def _num(mapping, *keys, default=0.0):
                 for key in keys:
@@ -788,7 +788,7 @@ class PDFExporter:
         import tempfile
         from types import SimpleNamespace
         from dataclasses import fields
-        from financial_engine import IncomeStatement, BalanceSheet, CashFlow
+        from core.financial_engine import IncomeStatement, BalanceSheet, CashFlow
         from pdf_exporter import export_pdf_report
 
         def model(cls, payload, aliases=None):

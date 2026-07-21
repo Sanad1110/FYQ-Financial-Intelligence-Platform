@@ -6,6 +6,11 @@ FYQ - Professional PDF Report Exporter
 
 import os
 import re
+from core.financial_engine import (
+    FinancialScorecard,
+    RiskAnalysis,
+    SmartRecommendations
+)
 from datetime import datetime
 
 try:
@@ -464,8 +469,6 @@ def export_pdf_report(app, output_path: str):
     # ─────────────────────────────────────────────
     if inc and bs:
         story.append(PageBreak())
-        from financial_engine import FinancialScorecard, RiskAnalysis, SmartRecommendations
-
         story.append(Paragraph("1. الملخص التنفيذي", styles["section"]))
         story.append(HRFlowable(width=W, thickness=1, color=GOLD))
         story.append(Spacer(1, 0.3*cm))
@@ -738,7 +741,7 @@ def export_pdf_report(app, output_path: str):
     #  5. النسب المالية
     # ─────────────────────────────────────────────
     if inc and bs:
-        from financial_engine import FinancialRatios
+        from core.financial_engine import FinancialRatios
         ratios = FinancialRatios(inc, bs, cf, getattr(app, 'sector', ''))
         all_ratios = ratios.get_all_ratios()
         interpretations = ratios.get_interpretation()
@@ -930,7 +933,6 @@ def export_pdf_report(app, output_path: str):
     #  7. التقييم المالي الشامل
     # ─────────────────────────────────────────────
     if inc and bs:
-        from financial_engine import FinancialScorecard
         scorecard = FinancialScorecard(inc, bs, cf).calculate()
         total_score = scorecard["التقييم_الإجمالي"]
         grade       = scorecard["التصنيف"]
@@ -999,7 +1001,7 @@ def export_pdf_report(app, output_path: str):
     # ─────────────────────────────────────────────
     if inc and bs and integrity_ok:
         story.append(PageBreak())
-        from financial_engine import RiskAnalysis
+        from core.financial_engine import RiskAnalysis
         risk_engine = RiskAnalysis(inc, bs, cf, sector)
         risks   = risk_engine.get_all_risks()
         overall = risk_engine.overall_risk_level()
@@ -1034,7 +1036,7 @@ def export_pdf_report(app, output_path: str):
     #  with neutral monitoring actions derived from already-calculated ratios.
     # ─────────────────────────────────────────────
     if inc and bs and integrity_ok:
-        from financial_engine import SmartRecommendations
+        from core.financial_engine import SmartRecommendations
         smart = SmartRecommendations(inc, bs, cf)
         recs  = list(smart.get_recommendations())
 

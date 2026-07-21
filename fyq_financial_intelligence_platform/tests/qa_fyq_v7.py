@@ -34,7 +34,7 @@ def main():
     pdf_payload = {**FULL, 'company':'شركة الاختبار', 'year':'2026', 'currency':'ريال'}
     pdf = check('PDF Arabic executive report','post','/api/export/pdf',pdf_payload)
     results.append(('PDF embedded report', pdf.data.startswith(b'%PDF') and len(pdf.data) > 20000, pdf.status_code))
-    results.append(('PDF tax-rate normalization guard', 'inc.tax_rate = inc.tax_rate / 100.0' in open('exporters_wrapper.py',encoding='utf-8').read(), 200))
+    results.append(('PDF tax-rate normalization guard', 'inc.tax_rate = inc.tax_rate / 100.0' in open('exporters/exporters_wrapper.py',encoding='utf-8').read(), 200))
     check('Scenario','post','/api/scenario',{**FULL,'changes':{'revenue_pct':-10,'cogs_pct':8,'opex_pct':5,'collection_pct':15}})
     check('Benchmark','post','/api/benchmark',{**FULL,'sector':'خدمات','market':'السعودية','source':'QA','benchmark':{'net_margin':{'median':10,'lower_quartile':5,'upper_quartile':15}}})
     # Smart import variants
@@ -81,17 +81,17 @@ def main():
     results.append(('Provisional executive narrative useful', ex.status_code==200 and exj.get('analysis_status')=='PROVISIONAL' and 'النتائج التشغيلية متاحة' in exj.get('narrative','') and '644000.00' in exj.get('narrative',''), ex.status_code))
     js_text=open('static/js/mizan.js',encoding='utf-8').read(); last_payload=js_text[js_text.rfind('function financialPayload(){'):]
     results.append(('Decision payload preserves CF lineage', "change_in_receivables:val('cf-ar-change')" in last_payload and "change_in_inventory:val('cf-inv-change')" in last_payload and "change_in_payables:val('cf-ap-change')" in last_payload and "beginning_cash:val('cf-begin-cash')" in last_payload, 200))
-    results.append(('Net debt EBITDA label exact', 'صافي الدين إلى EBITDA (مرة)' in open('financial_engine.py',encoding='utf-8').read(), 200))
-    pdf_text=open('pdf_exporter.py',encoding='utf-8').read()
+    results.append(('Net debt EBITDA label exact', 'صافي الدين إلى EBITDA (مرة)' in open('core/financial_engine.py',encoding='utf-8').read(), 200))
+    pdf_text=open('exporters/pdf_exporter.py',encoding='utf-8').read()
     results.append(('PDF sections 8 and 9 separated', '8–9. المخاطر والتوصيات' not in pdf_text and '8. تحليل المخاطر المالية — محجوب مؤقتًا' in pdf_text and '9. الأولويات والتوصيات التنفيذية — قراءة محكومة' in pdf_text, 200))
 
     # v7.8 methodology governance
-    from financial_engine import FinancialRatios, FinancialScorecard
+    from core.financial_engine import FinancialRatios, FinancialScorecard
     from app import build_income, build_balance, build_cashflow
     ri=build_income(INCOME); rb=build_balance(BALANCE); rc=build_cashflow(CASH)
     z=FinancialRatios(ri,rb,rc).altman_z_score()
     results.append(('Altman Z double-prime model explicit', z.get('_model_code')=='ALTMAN_Z_DOUBLE_PRIME_PRIVATE_NON_MANUFACTURING' and '6.56X1' in z.get('المنهجية','') and '2.60' in z.get('حدود التصنيف',''), 200))
-    results.append(('Altman no market-value mislabel', '1968' not in open('financial_engine.py',encoding='utf-8').read() and 'الشركات المدرجة' not in open('financial_engine.py',encoding='utf-8').read(), 200))
+    results.append(('Altman no market-value mislabel', '1968' not in open('core/financial_engine.py',encoding='utf-8').read() and 'الشركات المدرجة' not in open('core/financial_engine.py',encoding='utf-8').read(), 200))
     sm=FinancialScorecard(ri,rb,rc).calculate()
     results.append(('FYQ score proprietary methodology explicit', sm.get('نوع_المنهجية')=='PROPRIETARY_INTERNAL_DIAGNOSTIC_MODEL' and sum(sm.get('الأوزان',{}).values())==100 and sm.get('إصدار_المنهجية')=='FYQ-SCORE-1.2' and sm.get('عدد_الاختبارات')==18, 200))
     results.append(('FYQ score avoids credit grade labels', sm.get('التصنيف') in {'S1','S2','S3','S4','S5','محجوب'}, 200))
@@ -101,7 +101,7 @@ def main():
     rr=FinancialRatios(ri,rb,rc); eva=rr.economic_value_added(0.10)
     expected_capital=rb.total_equity+rb.short_term_debt+rb.long_term_debt-rb.cash
     results.append(('EVA and ROIC share invested-capital base', eva.get('رأس المال المستثمر')==round(expected_capital,2) and abs(rr.return_on_invested_capital()-(ri.ebit*(1-ri.tax_rate)/expected_capital*100))<1e-9, 200))
-    results.append(('Financial margin labels exact', 'هامش الإجمالي' not in open('financial_engine.py',encoding='utf-8').read() and 'هامش الصافي' not in open('financial_engine.py',encoding='utf-8').read(), 200))
+    results.append(('Financial margin labels exact', 'هامش الإجمالي' not in open('core/financial_engine.py',encoding='utf-8').read() and 'هامش الصافي' not in open('core/financial_engine.py',encoding='utf-8').read(), 200))
 
     # v7.10 realistic balanced regression fixture — Saudi retail profile
     REAL_I={'revenue':12500000,'cogs':7750000,'opex':2100000,'depreciation':350000,'interest':180000,'tax_rate':20}

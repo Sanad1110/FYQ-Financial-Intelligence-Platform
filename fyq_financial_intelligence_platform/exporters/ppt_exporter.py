@@ -278,7 +278,7 @@ def export_presentation(app, output_path: str):
 
     # ─── شريحة 5: النسب المالية ───
     if app.income_data and app.balance_data:
-        from financial_engine import FinancialRatios
+        from core.financial_engine import FinancialRatios
         ratios = FinancialRatios(app.income_data, app.balance_data, app.cashflow_data, getattr(app, 'sector', ''))
 
         slide = _add_slide(prs)
@@ -318,7 +318,7 @@ def export_presentation(app, output_path: str):
 
     # ─── شريحة 6: DuPont + EVA ───
     if app.income_data and app.balance_data:
-        from financial_engine import FinancialRatios
+        from core.financial_engine import FinancialRatios
         ratios = FinancialRatios(app.income_data, app.balance_data, app.cashflow_data, getattr(app, 'sector', ''))
         dupont = ratios.dupont_analysis()
         eva    = ratios.economic_value_added(0.10)
@@ -365,7 +365,7 @@ def export_presentation(app, output_path: str):
 
     # ─── شريحة 7: Altman Z-Score ───
     if app.income_data and app.balance_data:
-        from financial_engine import FinancialRatios
+        from core.financial_engine import FinancialRatios
         ratios = FinancialRatios(app.income_data, app.balance_data, app.cashflow_data, getattr(app, 'sector', ''))
         z_data = ratios.altman_z_score()
         color_map = {"green": SUCCESS, "orange": WARNING, "red": DANGER}
@@ -421,7 +421,7 @@ def export_presentation(app, output_path: str):
 
     # ─── شريحة 8: تحليل المخاطر ───
     if app.income_data and app.balance_data:
-        from financial_engine import RiskAnalysis
+        from core.financial_engine import RiskAnalysis
         risk_engine = RiskAnalysis(app.income_data, app.balance_data, getattr(app, "cashflow_data", None))
         risks   = risk_engine.get_all_risks()
         overall = risk_engine.overall_risk_level()
@@ -452,7 +452,7 @@ def export_presentation(app, output_path: str):
 
     # ─── شريحة 9: التوصيات الذكية ───
     if app.income_data and app.balance_data:
-        from financial_engine import SmartRecommendations
+        from core.financial_engine import SmartRecommendations
         smart = SmartRecommendations(app.income_data, app.balance_data, getattr(app, "cashflow_data", None))
         recs  = smart.get_recommendations()
 
@@ -481,7 +481,7 @@ def export_presentation(app, output_path: str):
 
     # ─── شريحة 10: التقييم الشامل ───
     if app.income_data and app.balance_data:
-        from financial_engine import FinancialScorecard
+        from core.financial_engine import FinancialScorecard
         scorecard = FinancialScorecard(app.income_data, app.balance_data, getattr(app, "cashflow_data", None)).calculate()
         total_score = scorecard["التقييم_الإجمالي"]
         grade       = scorecard["التصنيف"]
