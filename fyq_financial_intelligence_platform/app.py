@@ -52,10 +52,14 @@ from services.smart_import import profile_workbook
 from database import client_store
 
 from routes.financial import financial_bp
+from routes.engines import engines_bp
+from routes.dashboard import dashboard_bp
 
 app = Flask(__name__)
 
 app.register_blueprint(financial_bp)
+app.register_blueprint(engines_bp)
+app.register_blueprint(dashboard_bp)
 
 app.config['MAX_CONTENT_LENGTH'] = 12 * 1024 * 1024  # 12 MB
 app.config['JSON_SORT_KEYS'] = False
