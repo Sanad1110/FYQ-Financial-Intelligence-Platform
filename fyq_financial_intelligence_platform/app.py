@@ -56,6 +56,8 @@ from routes.engines import engines_bp
 from routes.dashboard import dashboard_bp
 from routes.scenario import scenario_bp
 from routes.benchmark import benchmark_bp
+from routes.clients import clients_bp
+from routes.projects import projects_bp
 
 app = Flask(__name__)
 
@@ -64,6 +66,8 @@ app.register_blueprint(engines_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(scenario_bp)
 app.register_blueprint(benchmark_bp)
+app.register_blueprint(clients_bp)
+app.register_blueprint(projects_bp)
 
 app.config['MAX_CONTENT_LENGTH'] = 12 * 1024 * 1024  # 12 MB
 app.config['JSON_SORT_KEYS'] = False
