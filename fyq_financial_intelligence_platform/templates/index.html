@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FYQ Financial Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/mizan.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">جاري الحساب...</div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- App Layout -->
+<div class="app-layout">
+
+  <!-- ═══════════ SIDEBAR ═══════════ -->
+  <nav class="sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-main">
+          <div class="logo-monogram" aria-hidden="true">FYQ</div>
+          <div>
+            <div class="logo-text">FYQ <em>FINANCIAL</em></div>
+            <div class="logo-version">FINANCIAL INTELLIGENCE PLATFORM</div>
+          </div>
+      </div>
+      <div class="sidebar-company" id="sidebarCompany">شركة نموذجية</div>
+      <div class="sidebar-year" id="sidebarYear">2026 — ريال</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="sidebar-nav">
+      <div class="nav-section">القوائم المالية</div>
+      <div class="nav-item active" data-page="home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">الرئيسية</span>
+      </div>
+      <div class="nav-item" data-page="income">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">قائمة الدخل</span>
+      </div>
+      <div class="nav-item" data-page="balance">
+        <span class="nav-icon">⚖️</span>
+        <span class="nav-label">الميزانية العمومية</span>
+      </div>
+      <div class="nav-item" data-page="cashflow">
+        <span class="nav-icon">💧</span>
+        <span class="nav-label">التدفقات النقدية</span>
+      </div>
+
+      <div class="nav-section">التحليل</div>
+      <div class="nav-item" data-page="ratios">
+        <span class="nav-icon">📐</span>
+        <span class="nav-label">النسب المالية</span>
+      </div>
+      <div class="nav-item" data-page="breakeven">
+        <span class="nav-icon">📉</span>
+        <span class="nav-label">نقطة التعادل</span>
+      </div>
+      <div class="nav-item" data-page="budget">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">تحليل الموازنة</span>
+      </div>
+      <div class="nav-item" data-page="advanced">
+        <span class="nav-icon">🔬</span>
+        <span class="nav-label">تحليلات متقدمة</span>
+        <span class="nav-badge">Pro</span>
+      </div>
+
+      <div class="nav-section">البيانات</div>
+      <div class="nav-item" data-page="import">
+        <span class="nav-icon">📥</span>
+        <span class="nav-label">استيراد Excel</span>
+        <span class="nav-badge new">جديد</span>
+      </div>
+
+
+      <div class="nav-section">ذكاء القرار</div>
+      <div class="nav-item" data-page="intelligence"><span class="nav-icon">🧠</span><span class="nav-label">مركز القرار التنفيذي</span><span class="nav-badge new">v6</span></div>
+      <div class="nav-item" data-page="scenario"><span class="nav-icon">🎯</span><span class="nav-label">السيناريوهات والمحاكاة</span></div>
+      <div class="nav-item" data-page="benchmark"><span class="nav-icon">📊</span><span class="nav-label">المقارنة القطاعية</span></div>
+      <div class="nav-item" data-page="valuation"><span class="nav-icon">💎</span><span class="nav-label">التقييم المالي</span></div>
+      <div class="nav-item" data-page="analyses"><span class="nav-icon">📚</span><span class="nav-label">سجل التحليلات</span></div>
+      <div class="nav-item" data-page="clients"><span class="nav-icon">👥</span><span class="nav-label">العملاء والمشاريع</span></div>
+
+      <div class="nav-section">التقارير</div>
+      <div class="nav-item" data-page="dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">لوحة المؤشرات</span>
+      </div>
+      <div class="nav-item" data-page="export">
+        <span class="nav-icon">📤</span>
+        <span class="nav-label">تصدير التقارير</span>
+      </div>
+      <div class="nav-item" data-page="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">الإعدادات</span>
+      </div>
+
+      <div class="nav-section">المنصة</div>
+      <div class="nav-item" data-page="about">
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">عن FYQ</span>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- ═══════════ MAIN AREA ═══════════ -->
+  <div class="main-area">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-page-title" id="headerPageTitle">الرئيسية</div>
+      <div class="header-company" id="headerCompany">شركة نموذجية</div>
+      <div class="header-sep"></div>
+      <div class="header-badges">
+        <span class="badge badge-blue">تحليل مالي</span>
+        <span class="badge badge-gold">تحليل متقدم</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- ══════════════════════════════════════
+           HOME PAGE
+           ══════════════════════════════════════ -->
+      <div class="page active fade-in" id="page-home">
+        <section class="fyq-command">
+          <div class="fyq-command-copy">
+            <div class="fyq-eyebrow"><span class="fyq-live-dot"></span> FYQ FINANCIAL INTELLIGENCE PLATFORM</div>
+            <h1><span>FYQ</span> Financial Intelligence</h1>
+            <p>حوّل القوائم المالية إلى قرار واضح. منصة تنفيذية للتحقق، التشخيص المالي، قياس المخاطر وبناء الرؤية الإدارية.</p>
+            <div class="fyq-command-actions">
+              <button class="fyq-primary-action feature-card" data-page="intelligence">فتح مركز القرار <span>←</span></button>
+              <button class="fyq-quiet-action feature-card" data-page="import">استيراد البيانات</button>
+            </div>
+          </div>
+          <div class="fyq-orbit" aria-hidden="true">
+            <div class="fyq-orbit-ring ring-a"></div>
+            <div class="fyq-orbit-ring ring-b"></div>
+            <div class="fyq-orbit-core"><b>FYQ</b><small>DECISION CORE</small></div>
+            <span class="orbit-node node-a"></span><span class="orbit-node node-b"></span><span class="orbit-node node-c"></span>
+          </div>
+        </section>
+
+        <section class="fyq-signal-row">
+          <div class="fyq-signal"><span>DATA QUALITY</span><b id="homeQuality">—</b><small>جاهزية البيانات</small></div>
+          <div class="fyq-signal"><span>FINANCIAL HEALTH</span><b id="homeHealth">—</b><small>الصحة المالية</small></div>
+          <div class="fyq-signal"><span>DECISION STATUS</span><b id="homeDecision">AWAITING DATA</b><small>حالة محرك القرار</small></div>
+          <div class="fyq-signal accent"><span>ANALYTICS CORE</span><b>25+</b><small>مؤشر ونسبة مالية</small></div>
+        </section>
+
+
+        <section class="home-executive-overview" id="homeExecutiveOverview" aria-live="polite">
+          <div class="home-overview-head">
+            <div>
+              <span>EXECUTIVE SNAPSHOT</span>
+              <h2>نبضة الأداء التنفيذي</h2>
+              <p>قراءة مرئية مركزة تربط الربحية والسيولة والنقد والمخاطر قبل الانتقال إلى تفاصيل التحليل.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" type="button" onclick="buildDashboard()">فتح لوحة المؤشرات</button>
+          </div>
+          <div class="home-overview-empty" id="homeExecutiveEmpty">
+            <b>تظهر اللوحة التنفيذية تلقائيًا بعد احتساب البيانات.</b>
+            <span>ابدأ بقائمة الدخل، ثم أضف الميزانية والتدفقات لتعميق القراءة.</span>
+          </div>
+          <div class="home-overview-content" id="homeExecutiveContent" hidden>
+            <div class="home-kpi-grid" id="homeKpiGrid"></div>
+            <div class="home-visual-grid">
+              <article class="home-gauge-card">
+                <div class="home-card-head"><span>FINANCIAL HEALTH</span><b>مؤشر الصحة المالية</b></div>
+                <div class="home-gauge-wrap">
+                  <canvas id="homeHealthGauge"></canvas>
+                  <div class="home-gauge-center"><strong id="homeHealthGaugeValue">—</strong><small id="homeHealthGaugeLabel">قيد استكمال البيانات</small></div>
+                </div>
+                <p id="homeExecutiveInsight" class="home-gauge-insight">أكمل التحليلات المتقدمة لإظهار درجة الصحة المركبة.</p>
+              </article>
+              <article class="home-mini-chart-card">
+                <div class="home-card-head"><span>PROFIT PULSE</span><b>تحويل الإيراد إلى ربح</b></div>
+                <div class="chart-container home-chart"><canvas id="homeProfitPulseChart"></canvas></div>
+              </article>
+              <article class="home-mini-chart-card">
+                <div class="home-card-head"><span>CASH PULSE</span><b>نبضة النقد والسيولة</b></div>
+                <div class="chart-container home-chart"><canvas id="homeCashPulseChart"></canvas></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <div class="fyq-section-head">
+          <div><span>DECISION WORKSPACE</span><h2>مسار القرار المالي</h2></div>
+          <p>بدل قائمة الأدوات التقليدية، ابدأ من المهمة التي تريد إنجازها.</p>
+        </div>
+
+        <section class="fyq-workspace">
+          <article class="fyq-work-card primary feature-card" data-page="intelligence">
+            <div class="work-index">01</div><div class="work-icon">◆</div>
+            <h3>تشخيص القرار</h3><p>ملخص تنفيذي، جودة البيانات، المخاطر والأولويات في شاشة واحدة.</p>
+            <span class="work-link">ENTER DECISION CORE ←</span>
+          </article>
+          <article class="fyq-work-card feature-card" data-page="dashboard">
+            <div class="work-index">02</div><div class="work-icon">◫</div>
+            <h3>قراءة الأداء</h3><p>المؤشرات والهوامش والسيولة والرفع المالي بصريًا دون ضوضاء.</p>
+            <span class="work-link">VIEW PERFORMANCE ←</span>
+          </article>
+          <article class="fyq-work-card feature-card" data-page="advanced">
+            <div class="work-index">03</div><div class="work-icon">△</div>
+            <h3>اختبار المتانة</h3><p>DuPont وEVA وAltman Z″ لقراءة الكفاءة والقيمة ومؤشرات التعثر ضمن نطاق منهجي موضح.</p>
+            <span class="work-link">RUN DIAGNOSTICS ←</span>
+          </article>
+          <article class="fyq-work-card feature-card" data-page="export">
+            <div class="work-index">04</div><div class="work-icon">↗</div>
+            <h3>إصدار التقرير</h3><p>مخرجات تنفيذية جاهزة للمشاركة بصيغ PDF وExcel وPowerPoint.</p>
+            <span class="work-link">BUILD REPORT ←</span>
+          </article>
+        </section>
+
+        <section class="fyq-bottom-rail">
+          <div><span class="rail-kicker">FYQ METHOD</span><h3>DATA → VALIDATE → INTERPRET → DECIDE</h3></div>
+          <div class="rail-status"><i></i><span>Precision engine online</span></div>
+        </section>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           INCOME STATEMENT
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-income">
+        <div class="section-title"><span class="card-title-icon blue">📊</span> قائمة الدخل</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+
+          <!-- Input Card -->
+          <div class="card">
+            <div class="card-title">
+              <span class="card-title-icon blue">📝</span>
+              بيانات الإدخال
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">الإيرادات (المبيعات)</label>
+                <input class="form-input" id="inc-revenue" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">تكلفة البضاعة المباعة (COGS)</label>
+                <input class="form-input" id="inc-cogs" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">المصاريف التشغيلية (OPEX)</label>
+                <input class="form-input" id="inc-opex" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">الاستهلاك والإطفاء (D&A)</label>
+                <input class="form-input" id="inc-dep" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">مصاريف الفائدة</label>
+                <input class="form-input" id="inc-int" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">معدل ضريبة الدخل (%)</label>
+                <input class="form-input" id="inc-tax" type="number" placeholder="15" value="15" min="0" max="100">
+              </div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" style="flex:1" onclick="calcIncome()">⚡ احسب</button>
+              <button class="btn btn-secondary btn-sm" onclick="clearIncome()">مسح</button>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <div class="card-title">
+                <span class="card-title-icon gold">📈</span>
+                النتائج — قائمة الدخل
+              </div>
+              <div id="incomeResultsBody">
+                <div style="text-align:center;padding:40px;color:var(--text3)">
+                  <div style="font-size:40px;margin-bottom:10px">📊</div>
+                  <div style="font-size:11px">أدخل البيانات واضغط احسب</div>
+                </div>
+              </div>
+            </div>
+            <div id="incomeCharts" style="display:none">
+              <div class="fyq-bottom-grid">
+                <div class="card">
+                  <div class="card-title"><span class="card-title-icon blue">📊</span>هيكل الدخل</div>
+                  <div class="chart-container h200"><canvas id="incomeBarChart"></canvas></div>
+                </div>
+                <div class="card">
+                  <div class="card-title"><span class="card-title-icon gold">📈</span>الهوامش</div>
+                  <div class="chart-container h200"><canvas id="incomeMarginChart"></canvas></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           BALANCE SHEET
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-balance">
+        <div class="section-title"><span class="card-title-icon green">⚖️</span> الميزانية العمومية</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start">
+
+          <!-- Assets -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon green">💰</span>الأصول</div>
+            <div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">الأصول المتداولة</div>
+            <div class="form-group"><label class="form-label">النقدية وما يعادلها</label><input class="form-input" id="bs-cash" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">الذمم المدينة</label><input class="form-input" id="bs-ar" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">المخزون</label><input class="form-input" id="bs-inv" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">أصول متداولة أخرى</label><input class="form-input" id="bs-other-ca" type="number" placeholder="0"></div>
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin:10px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)">الأصول غير المتداولة</div>
+            <div class="form-group"><label class="form-label">الأصول الثابتة (قبل الاستهلاك)</label><input class="form-input" id="bs-ppe" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">مجمع الاستهلاك (سالب)</label><input class="form-input" id="bs-ad" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">أصول غير متداولة أخرى</label><input class="form-input" id="bs-other-nca" type="number" placeholder="0"></div>
+          </div>
+
+          <!-- Liabilities -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon red">📋</span>الالتزامات</div>
+            <div style="font-size:10px;font-weight:700;color:var(--orange);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">الالتزامات المتداولة</div>
+            <div class="form-group"><label class="form-label">الذمم الدائنة</label><input class="form-input" id="bs-ap" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">القروض قصيرة الأجل</label><input class="form-input" id="bs-std" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">التزامات متداولة أخرى</label><input class="form-input" id="bs-other-cl" type="number" placeholder="0"></div>
+            <div style="font-size:10px;font-weight:700;color:var(--red);margin:10px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)">الالتزامات غير المتداولة</div>
+            <div class="form-group"><label class="form-label">القروض طويلة الأجل</label><input class="form-input" id="bs-ltd" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">التزامات غير متداولة أخرى</label><input class="form-input" id="bs-other-ncl" type="number" placeholder="0"></div>
+          </div>
+
+          <!-- Equity + Results -->
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <div class="card-title"><span class="card-title-icon purple">👑</span>حقوق الملكية</div>
+              <div class="form-group"><label class="form-label">رأس المال المدفوع</label><input class="form-input" id="bs-sc" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">الأرباح المحتجزة</label><input class="form-input" id="bs-re" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">احتياطيات أخرى</label><input class="form-input" id="bs-other-eq" type="number" placeholder="0"></div>
+              <div class="btn-row" style="margin-top:10px">
+                <button class="btn btn-primary" style="flex:1" onclick="calcBalance()">⚡ احسب</button>
+                <button class="btn btn-secondary btn-sm" onclick="clearBalance()">مسح</button>
+              </div>
+            </div>
+            <div class="card" id="balanceResultsCard">
+              <div class="card-title"><span class="card-title-icon gold">📊</span>النتائج</div>
+              <div id="balanceResultsBody">
+                <div style="text-align:center;padding:30px;color:var(--text3)">
+                  <div style="font-size:32px;margin-bottom:8px">⚖️</div>
+                  <div style="font-size:11px">أدخل البيانات واضغط احسب</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="balanceCharts" style="display:none;margin-top:14px">
+          <div class="fyq-bottom-grid">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon green">◔</span>تكوين الأصول</div>
+              <div class="chart-container h200"><canvas id="balanceCompositionChart"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon purple">◫</span>هيكل التمويل</div>
+              <div class="chart-container h200"><canvas id="balanceFundingChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           CASH FLOW
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-cashflow">
+        <div class="section-title"><span class="card-title-icon teal">💧</span> التدفقات النقدية</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start">
+
+          <!-- Operating -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon teal">⚙️</span>التشغيلية</div>
+            <div class="form-group"><label class="form-label">صافي الدخل</label><input class="form-input" id="cf-ni" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">إضافة: الاستهلاك</label><input class="form-input" id="cf-dep" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">التغير في الذمم المدينة</label><input class="form-input" id="cf-ar-change" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">التغير في المخزون</label><input class="form-input" id="cf-inv-change" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">التغير في الذمم الدائنة</label><input class="form-input" id="cf-ap-change" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">بنود تشغيلية أخرى</label><input class="form-input" id="cf-other-op" type="number" placeholder="0"></div>
+          </div>
+
+          <!-- Investing -->
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon blue">📈</span>الاستثمارية</div>
+            <div class="form-group"><label class="form-label">شراء الأصول الثابتة (CAPEX)</label><input class="form-input" id="cf-capex" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">عائدات بيع الأصول</label><input class="form-input" id="cf-asset-sale" type="number" placeholder="0"></div>
+            <div class="form-group"><label class="form-label">الاستثمارات المالية</label><input class="form-input" id="cf-invest" type="number" placeholder="0"></div>
+          </div>
+
+          <!-- Financing + Results -->
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <div class="card-title"><span class="card-title-icon orange">🏦</span>التمويلية</div>
+              <div class="form-group"><label class="form-label">قروض جديدة</label><input class="form-input" id="cf-new-debt" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">سداد قروض</label><input class="form-input" id="cf-debt-rep" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">توزيعات الأرباح</label><input class="form-input" id="cf-div" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">رصيد النقد أول الفترة</label><input class="form-input" id="cf-begin-cash" type="number" placeholder="0"></div>
+              <div class="btn-row" style="margin-top:10px">
+                <button class="btn btn-primary" style="flex:1" onclick="calcCashflow()">⚡ احسب</button>
+                <button class="btn btn-secondary btn-sm" onclick="clearCashflow()">مسح</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon gold">📊</span>النتائج</div>
+              <div id="cashflowResultsBody">
+                <div style="text-align:center;padding:30px;color:var(--text3)">
+                  <div style="font-size:32px;margin-bottom:8px">💧</div>
+                  <div style="font-size:11px">أدخل البيانات واضغط احسب</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="cashflowCharts" style="display:none;margin-top:14px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon teal">📊</span>التدفقات النقدية</div>
+              <div class="chart-container h240"><canvas id="cashflowBarChart"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon blue">🍩</span>توزيع التدفقات</div>
+              <div class="chart-container h240"><canvas id="cashflowDoughnut"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           FINANCIAL RATIOS
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-ratios">
+        <div class="section-title"><span class="card-title-icon blue">📐</span> النسب المالية</div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <div style="font-size:11px;color:var(--text2)">يتطلب حساب قائمة الدخل والميزانية أولاً</div>
+          <button class="btn btn-primary btn-sm" onclick="calcRatios()">⚡ احسب النسب</button>
+        </div>
+        <div id="ratiosEmpty" style="text-align:center;padding:60px;color:var(--text3)">
+          <div style="font-size:50px;margin-bottom:14px">📐</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px">لا توجد بيانات</div>
+          <div style="font-size:11px">أدخل قائمة الدخل والميزانية أولاً</div>
+        </div>
+        <div id="ratiosContent" style="display:none">
+          <div class="fyq-chart-grid">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon blue">💧</span>نسب السيولة</div>
+              <div id="ratiosLiquidity"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon orange">⚙️</span>نسب الكفاءة</div>
+              <div id="ratiosEfficiency"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon green">💰</span>نسب الربحية</div>
+              <div id="ratiosProfitability"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon red">⚠️</span>نسب المديونية</div>
+              <div id="ratiosLeverage"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon blue">📊</span>نسب السيولة — رسم بياني</div>
+              <div class="chart-container h200"><canvas id="ratiosLiqChart"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon green">📈</span>نسب الربحية — رسم بياني</div>
+              <div class="chart-container h200"><canvas id="ratiosProfChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           BREAK-EVEN
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-breakeven">
+        <div class="section-title"><span class="card-title-icon red">📉</span> تحليل نقطة التعادل</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon blue">📝</span>بيانات الإدخال</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">سعر البيع للوحدة</label>
+                <input class="form-input" id="be-price" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">التكلفة المتغيرة للوحدة</label>
+                <input class="form-input" id="be-vc" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">التكاليف الثابتة الإجمالية</label>
+                <input class="form-input" id="be-fc" type="number" placeholder="0" min="0">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">المبيعات الفعلية (وحدات)</label>
+                <input class="form-input" id="be-actual" type="number" placeholder="0" min="0">
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="calcBreakeven()">⚡ احسب</button>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <div class="card-title"><span class="card-title-icon gold">📊</span>النتائج</div>
+              <div id="breakevenResultsBody">
+                <div style="text-align:center;padding:30px;color:var(--text3)">
+                  <div style="font-size:32px;margin-bottom:8px">📉</div>
+                  <div style="font-size:11px">أدخل البيانات واضغط احسب</div>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="breakevenChartCard" style="display:none">
+              <div class="card-title"><span class="card-title-icon teal">📈</span>رسم CVP</div>
+              <div class="chart-container h240"><canvas id="breakevenChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           BUDGET ANALYSIS
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-budget">
+        <div class="section-title"><span class="card-title-icon orange">📋</span> تحليل الموازنة</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon blue">📝</span>بيانات الإدخال</div>
+            <div style="font-size:10px;font-weight:700;color:var(--cyan);margin-bottom:8px">الإيرادات</div>
+            <div class="form-grid">
+              <div class="form-group"><label class="form-label">إيرادات مخططة</label><input class="form-input" id="bud-rev-plan" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">إيرادات فعلية</label><input class="form-input" id="bud-rev-act" type="number" placeholder="0"></div>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:var(--orange);margin:10px 0 8px">التكاليف</div>
+            <div class="form-grid">
+              <div class="form-group"><label class="form-label">تكاليف مخططة</label><input class="form-input" id="bud-cost-plan" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">تكاليف فعلية</label><input class="form-input" id="bud-cost-act" type="number" placeholder="0"></div>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin:10px 0 8px">الربح</div>
+            <div class="form-grid">
+              <div class="form-group"><label class="form-label">ربح مخطط</label><input class="form-input" id="bud-profit-plan" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="form-label">ربح فعلي</label><input class="form-input" id="bud-profit-act" type="number" placeholder="0"></div>
+            </div>
+            <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="calcBudget()">⚡ احسب</button>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <div class="card-title"><span class="card-title-icon gold">📊</span>النتائج</div>
+              <div id="budgetResultsBody">
+                <div style="text-align:center;padding:30px;color:var(--text3)">
+                  <div style="font-size:32px;margin-bottom:8px">📋</div>
+                  <div style="font-size:11px">أدخل البيانات واضغط احسب</div>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="budgetChartCard" style="display:none">
+              <div class="card-title"><span class="card-title-icon orange">📊</span>مقارنة المخطط والفعلي</div>
+              <div class="chart-container h240"><canvas id="budgetBarChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           ADVANCED ANALYSIS
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-advanced">
+        <div class="section-title"><span class="card-title-icon purple">🔬</span> التحليلات المتقدمة — Advanced Analysis</div>
+        <div class="card" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div style="flex:1">
+              <div style="font-size:11px;color:var(--text2)">يتطلب حساب قائمة الدخل والميزانية أولاً</div>
+            </div>
+            <div class="form-group" style="margin:0;min-width:140px">
+              <label class="form-label">WACC (%)</label>
+              <input class="form-input" id="adv-wacc" type="number" placeholder="10" value="10">
+            </div>
+            <div class="form-group" style="margin:0;min-width:160px">
+              <label class="form-label">القيمة السوقية لحقوق الملكية</label>
+              <input class="form-input" id="adv-mve" type="number" placeholder="0">
+            </div>
+            <button class="btn btn-primary" onclick="calcAdvanced()">⚡ احسب</button>
+          </div>
+        </div>
+        <div id="advancedResults" style="display:none">
+          <div class="fyq-chart-grid">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon blue">🔗</span>DuPont Analysis — تفكيك ROE</div>
+              <div id="dupont3Body"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon gold">💎</span>EVA — القيمة الاقتصادية المضافة</div>
+              <div id="evaBody"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon red">⚠️</span>Altman Z-Score — مؤشر التعثر المالي</div>
+              <div id="altmanBody"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon gold">🏆</span>التقييم الإجمالي — 100 درجة</div>
+              <div id="scorecardBody"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon orange">⚠️</span>تحليل المخاطر</div>
+              <div id="riskBody"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon green">💡</span>التوصيات الذكية</div>
+              <div id="recsBody"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           DASHBOARD
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-dashboard">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div class="section-title" style="margin-bottom:0"><span class="card-title-icon gold">📊</span>FYQ Executive Control Room</div>
+          <button class="btn btn-primary btn-sm" onclick="buildDashboard()">🔄 تحديث</button>
+        </div>
+
+        <div id="dashboardEmpty" style="text-align:center;padding:60px;color:var(--text3)">
+          <div style="font-size:60px;margin-bottom:16px">📊</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text2);margin-bottom:8px">لوحة المؤشرات فارغة</div>
+          <div style="font-size:12px;margin-bottom:20px">أدخل البيانات المالية أولاً ثم اضغط "تحديث"</div>
+          <button class="btn btn-primary" onclick="navigateTo('income')">ابدأ بقائمة الدخل</button>
+        </div>
+
+        <div id="dashboardContent" style="display:none">
+          <div class="executive-strip">
+            <div class="exec-brand"><span class="exec-pulse"></span><div><strong>FYQ Decision Control</strong><small>FINANCIAL DECISION INTELLIGENCE</small></div></div>
+            <div class="exec-meta"><span id="dashCompanyChip">شركة نموذجية</span><span id="dashYearChip">2026</span><span id="dashCurrencyChip">ريال</span></div>
+            <div class="exec-state" id="dashSystemState">● البيانات جاهزة للتحليل</div>
+          </div>
+          <div class="fyq-filterbar">
+            <div><span>ENTITY</span><strong id="fyqEntityFilter">شركة نموذجية</strong></div>
+            <div><span>FISCAL YEAR</span><strong id="fyqYearFilter">2026</strong></div>
+            <div><span>SECTOR</span><strong id="fyqSectorFilter">—</strong></div>
+            <div><span>CURRENCY</span><strong id="fyqCurrencyFilter">ريال</strong></div>
+            <div class="fyq-live"><i></i> LIVE ANALYSIS</div>
+          </div>
+          <!-- KPI Cards -->
+          <div class="kpi-grid fyq-kpi-strip" id="dashKpiGrid"></div>
+
+          <!-- Charts Row 1 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+            <div class="dash-chart-card">
+              <div class="dash-chart-title"><span>📊</span>هيكل الدخل</div>
+              <div class="chart-container h240"><canvas id="dashRevenueChart"></canvas></div>
+            </div>
+            <div class="dash-chart-card">
+              <div class="dash-chart-title"><span>📈</span>توزيع الهوامش</div>
+              <div class="chart-container h240"><canvas id="dashMarginsChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Charts Row 2 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+            <div class="dash-chart-card">
+              <div class="dash-chart-title"><span>💧</span>التدفقات النقدية</div>
+              <div class="chart-container h240"><canvas id="dashCashflowChart"></canvas></div>
+            </div>
+            <div class="dash-chart-card">
+              <div class="dash-chart-title"><span>⚖️</span>هيكل الأصول</div>
+              <div class="chart-container h240"><canvas id="dashBalanceChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Score + Risk -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon gold">🏆</span>التقييم الإجمالي</div>
+              <div id="dashScoreBody"></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon orange">⚠️</span>ملخص المخاطر</div>
+              <div id="dashRiskBody"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FYQ v6 DECISION INTELLIGENCE -->
+      <div class="page" id="page-intelligence">
+        <section class="decision-head">
+          <div><span>FYQ / DECISION CORE</span><h2>مركز القرار التنفيذي</h2><p>طبقة تفسير تنفيذية فوق القوائم المالية — تشخّص جودة البيانات ثم تحوّل الأرقام إلى أولويات قابلة للتنفيذ.</p></div>
+          <div class="decision-actions"><button onclick="runValidation()">فحص الجاهزية</button><button class="solid" onclick="runExecutiveSummary()">بناء الملخص التنفيذي</button></div>
+        </section>
+        <div class="v6-kpi-strip decision-kpis">
+          <div><small>DATA QUALITY</small><b id="dqScore">—</b><span>جودة البيانات</span></div>
+          <div><small>HEALTH SCORE</small><b id="execHealth">—</b><span>الصحة المالية</span></div>
+          <div><small>CLASSIFICATION</small><b id="execClass">—</b><span>التصنيف</span></div>
+          <div><small>ENGINE STATUS</small><b id="validationState">غير مفحوص</b><span>حالة التحليل</span></div>
+        </div>
+        <section class="decision-layout">
+          <div class="decision-summary">
+            <div class="decision-panel-label">EXECUTIVE READOUT</div>
+            <h3>القراءة التنفيذية</h3>
+            <p id="execNarrative" class="exec-narrative">أدخل القوائم المالية ثم شغّل الملخص التنفيذي لبناء قراءة إدارية مركزة.</p>
+            <div class="summary-columns">
+              <div><h4><i class="good-dot"></i> نقاط القوة</h4><div id="execStrengths"></div></div>
+              <div><h4><i class="warn-dot"></i> نقاط الضعف</h4><div id="execWeaknesses"></div></div>
+              <div><h4><i class="risk-dot"></i> المخاطر</h4><div id="execRisks"></div></div>
+            </div>
+          </div>
+          <aside class="decision-side">
+            <div class="decision-side-panel"><span>VALIDATION LOG</span><h3>سلامة البيانات</h3><div id="validationIssues" class="v6-list">لم يتم الفحص بعد.</div></div>
+            <div class="decision-side-panel priority"><span>EXECUTION QUEUE</span><h3>الأولويات التنفيذية</h3><div id="execPriorities" class="v6-list">شغّل الملخص التنفيذي.</div></div>
+          </aside>
+        </section>
+        <section class="decision-linkage-block">
+          <div class="decision-linkage-head"><div><span>PERFORMANCE LINKAGES</span><h3>محركات الأداء وآثارها التنفيذية</h3></div><p>يشرح المحرك العلاقة بين الربحية والسيولة والنقد والرفع المالي، مع الأثر المتوقع وأولوية الإجراء.</p></div>
+          <div id="execLinkages" class="exec-linkage-grid"><div class="exec-linkage-empty">شغّل الملخص التنفيذي بعد إدخال البيانات لإظهار الروابط السببية بين المؤشرات.</div></div>
+        </section>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           SCENARIO ANALYSIS
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-scenario">
+        <div class="section-title"><span class="card-title-icon cyan">🎯</span> تحليل السيناريوهات والمحاكاة</div>
+        <div class="v6-grid">
+          <div class="v6-panel">
+            <h3>معاملات التغيير</h3>
+            <div class="scenario-inputs">
+              <div class="form-group"><label class="form-label">تغيير الإيرادات (%)</label><input class="form-input" id="sc-revenue" type="number" placeholder="0" value="0"></div>
+              <div class="form-group"><label class="form-label">تغيير تكلفة البضاعة (%)</label><input class="form-input" id="sc-cogs" type="number" placeholder="0" value="0"></div>
+              <div class="form-group"><label class="form-label">تغيير المصاريف التشغيلية (%)</label><input class="form-input" id="sc-opex" type="number" placeholder="0" value="0"></div>
+              <div class="form-group"><label class="form-label">تغيير التمويل القائم (%)</label><input class="form-input" id="sc-financing" type="number" placeholder="0" value="0"></div>
+              <div class="form-group full"><label class="form-label">تحسن التحصيل (%)</label><input class="form-input" id="sc-collection" type="number" placeholder="0" value="0"></div>
+            </div>
+            <div class="scenario-assumption">التمويل يطبّق على رصيد القروض القصيرة والطويلة ويعكس أثره على النقد وتكلفة الفائدة؛ التحصيل ينعكس على الذمم والنقد التشغيلي.</div>
+            <button class="btn btn-primary" onclick="runScenario()" style="width:100%;margin-top:12px">تشغيل السيناريو</button>
+          </div>
+          <div class="v6-panel v6-span2">
+            <h3>نتائج المحاكاة</h3>
+            <div id="scenarioExecutiveReadout" class="scenario-readout">أدخل معاملات التغيير وشغّل السيناريو لتظهر القراءة التنفيذية والأثر المتسلسل.</div>
+            <div id="scenarioKpiGrid" class="scenario-kpi-grid"></div>
+            <div class="scenario-chart-grid">
+              <div class="scenario-chart-card"><span>BASE VS SCENARIO</span><div class="chart-container h200"><canvas id="scenarioPerformanceChart"></canvas></div></div>
+              <div class="scenario-chart-card"><span>RATIO TRAJECTORY</span><div class="chart-container h200"><canvas id="scenarioRatioChart"></canvas></div></div>
+            </div>
+            <div id="scenarioResults" class="v6-list">ستظهر محركات الأثر وأولويات الإدارة هنا بعد تشغيل السيناريو.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           BENCHMARKING
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-benchmark">
+        <div class="section-title"><span class="card-title-icon orange">📊</span> المقارنة القطاعية والمعايير</div>
+        <div class="v6-grid">
+          <div class="v6-panel">
+            <h3>مرجع المقارنة</h3>
+            <div class="form-group"><label class="form-label">الصناعة</label><select class="form-input" id="bm-sector" onchange="syncBenchmarkSector()"><option>تجزئة</option><option>تصنيع</option><option>خدمات</option><option>عقارات</option><option>مالي</option></select></div>
+            <div class="form-group"><label class="form-label">نمط المرجع</label><select class="form-input" id="bm-mode" onchange="toggleBenchmarkMode()"><option value="industry">مرجع FYQ القطاعي المدمج</option><option value="custom">مرجع مخصص</option></select></div>
+            <div id="benchmarkReferenceNote" class="benchmark-reference-note"></div>
+            <div id="bm-custom-fields">
+              <div class="form-group"><label class="form-label">السوق</label><input class="form-input" id="bm-market" type="text" placeholder="السعودية"></div>
+              <div class="form-group"><label class="form-label">مصدر البيانات</label><input class="form-input" id="bm-source" type="text" placeholder="مرجع يحدده المستخدم"></div>
+              <hr style="margin:12px 0;border:none;border-top:1px solid var(--border)">
+              <div class="form-group"><label class="form-label">مرجع هامش صافي الدخل (%)</label><input class="form-input" id="bm-nm" type="number" placeholder="10" value="10"></div>
+              <div class="form-group"><label class="form-label">مرجع ROA (%)</label><input class="form-input" id="bm-roa" type="number" placeholder="5" value="5"></div>
+              <div class="form-group"><label class="form-label">مرجع ROE (%)</label><input class="form-input" id="bm-roe" type="number" placeholder="15" value="15"></div>
+              <div class="form-group"><label class="form-label">مرجع نسبة التداول</label><input class="form-input" id="bm-cr" type="number" placeholder="1.5" value="1.5" step="0.1"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runBenchmark()" style="width:100%;margin-top:12px">تشغيل المقارنة</button>
+          </div>
+          <div class="v6-panel v6-span2">
+            <h3>النتيجة والموقع التنافسي</h3>
+            <div id="benchmarkMeta" class="benchmark-disclosure">اختر الصناعة وشغّل المقارنة لإظهار المرجع القطاعي وحدوده.</div>
+            <div id="benchmarkKpiGrid" class="benchmark-kpi-grid"></div>
+            <div class="scenario-chart-grid">
+              <div class="scenario-chart-card"><span>PERFORMANCE INDEX</span><div class="chart-container h200"><canvas id="benchmarkPerformanceChart"></canvas></div></div>
+              <div class="scenario-chart-card"><span>FAVOURABLE GAP</span><div class="chart-container h200"><canvas id="benchmarkGapChart"></canvas></div></div>
+            </div>
+            <div id="benchmarkExecutiveReadout" class="benchmark-readout">تظهر القراءة التنفيذية للموقع القطاعي بعد تشغيل المقارنة.</div>
+            <div id="benchmarkResults" class="v6-list">تعرض المنصة أثر الفجوة على الربحية والرفع المالي وقدرة خدمة الدين، وليس الأرقام المجردة فقط.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           VALUATION & BUSINESS ASSESSMENT
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-valuation">
+        <div class="section-title"><span class="card-title-icon gold">💎</span> التقييم المالي وتقدير القيمة</div>
+        <div class="v6-grid">
+          <div class="v6-panel">
+            <h3>معاملات التقييم</h3>
+            <div class="form-group"><label class="form-label">معدل الخصم (WACC) (%)</label><input class="form-input" id="val-wacc" type="number" placeholder="8" value="8" step="0.5"></div>
+            <div class="form-group"><label class="form-label">معدل النمو الدائم (%)</label><input class="form-input" id="val-terminal-growth" type="number" placeholder="2.5" value="2.5" step="0.5"></div>
+            <div class="form-group"><label class="form-label">سنوات التنبؤ</label><input class="form-input" id="val-forecast-years" type="number" placeholder="5" value="5" min="3" max="10"></div>
+            <div class="form-group"><label class="form-label">معدل نمو الإيرادات المتوقع (%)</label><input class="form-input" id="val-revenue-growth" type="number" placeholder="5" value="5" step="0.5"></div>
+            <hr style="margin:12px 0;border:none;border-top:1px solid var(--border)">
+            <div class="form-group"><label class="form-label">مضاعف الربح (P/E)</label><input class="form-input" id="val-pe-multiple" type="number" placeholder="12" value="12" step="0.5"></div>
+            <div class="form-group"><label class="form-label">مضاعف الإيرادات (P/S)</label><input class="form-input" id="val-ps-multiple" type="number" placeholder="2" value="2" step="0.1"></div>
+            <button class="btn btn-primary" onclick="runValuation()" style="width:100%;margin-top:12px">💰 حساب التقييم</button>
+          </div>
+          <div class="v6-panel v6-span2">
+            <h3>نتائج التقييم</h3>
+            <div id="valuationResults" class="v6-list">أدخل معاملات التقييم وشغّل الحساب لرؤية تقدير قيمة المنشأة.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           SAVED ANALYSES
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-analyses">
+        <div class="section-title"><span class="card-title-icon gold">📚</span> سجل التحليلات المحفوظة</div>
+        <div class="card">
+          <div class="card-title"><span class="card-title-icon blue">ℹ️</span>معلومة</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.8">
+            يعرض هذا القسم جميع التحليلات المحفوظة في سجل المشاريع. يمكنك استعراض التحليلات السابقة واستعادة البيانات منها.
+          </div>
+        </div>
+        <div id="analysesList" class="v6-list" style="margin-top:14px">جاري التحميل...</div>
+      </div>
+
+      <div class="page" id="page-clients">
+        <div class="section-title"><span class="card-title-icon gold">👥</span> إدارة العملاء والمشاريع</div>
+        <div class="v6-grid"><div class="v6-panel"><h3>عميل جديد</h3><input id="client-name" placeholder="اسم العميل"><input id="client-sector" placeholder="القطاع"><input id="client-cr" placeholder="السجل التجاري"><button class="btn btn-primary" onclick="createClient()">إضافة العميل</button></div><div class="v6-panel v6-span2"><h3>العملاء</h3><div id="clientsList" class="client-list">جاري التحميل...</div></div></div>
+        <div class="v6-panel" id="projectPanel" style="margin-top:14px"><h3>المشاريع والتحليلات</h3><div id="projectsArea">اختر عميلاً لعرض مشاريعه.</div></div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           EXPORT
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-export">
+        <div class="section-title"><span class="card-title-icon teal">📤</span> تصدير التقارير</div>
+        <div class="export-grid">
+          <div class="export-card excel" onclick="exportExcel()">
+            <span class="export-icon">📊</span>
+            <div class="export-title">Excel</div>
+            <div class="export-desc">تقرير Excel احترافي مع 8 أوراق عمل وتنسيق مالي احترافي</div>
+            <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+              <span class="badge badge-green">Dashboard</span>
+              <span class="badge badge-blue">النسب</span>
+              <span class="badge badge-gold">التقييم</span>
+            </div>
+          </div>
+          <div class="export-card ppt" onclick="exportPPT()">
+            <span class="export-icon">📑</span>
+            <div class="export-title">PowerPoint</div>
+            <div class="export-desc">عرض تقديمي احترافي 10 شرائح جاهز للعملاء</div>
+            <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+              <span class="badge badge-blue">10 شرائح</span>
+              <span class="badge badge-gold">احترافي</span>
+            </div>
+          </div>
+          <div class="export-card pdf" onclick="exportPDF()">
+            <span class="export-icon">📄</span>
+            <div class="export-title">PDF</div>
+            <div class="export-desc">تقرير PDF شامل 9 صفحات بمستوى تقارير تنفيذية احترافية</div>
+            <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+              <span class="badge badge-red">9 صفحات</span>
+              <span class="badge badge-blue">تحليل مالي</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-title-icon blue">ℹ️</span>ملاحظة</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.8">
+            يجب إدخال بيانات قائمة الدخل على الأقل قبل التصدير. للحصول على تقرير شامل، أدخل جميع القوائم المالية وقم بحساب التحليلات المتقدمة أولاً.
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           IMPORT EXCEL
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-import">
+        <div class="section-title"><span class="card-title-icon green">📥</span> استيراد بيانات Excel</div>
+
+        <!-- Dropzone -->
+        <div class="import-dropzone" id="importDropzone">
+          <div class="import-dropzone-icon">📊</div>
+          <div class="import-dropzone-title">اسحب ملف Excel هنا أو انقر للاختيار</div>
+          <div class="import-dropzone-sub">يدعم XLSX — محرك FYQ يكتشف الأوراق والسنوات والمسميات العربية والإنجليزية ويعرض درجة الثقة</div>
+          <input type="file" id="importFileInput" accept=".xlsx" style="display:none" onchange="handleImportFile(this.files[0])">
+          <button class="import-dropzone-btn" onclick="document.getElementById('importFileInput').click()">📂 اختر ملف Excel</button>
+        </div>
+
+        <!-- Template Download + Info -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon blue">📋</span>قالب FYQ القياسي</div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.9;margin-bottom:12px">
+              استخدم قالب FYQ أو ارفع ملفًا ماليًا موجودًا؛ سيحاول محرك المطابقة الذكي اكتشاف الحقول وأحدث سنة تلقائيًا.
+            </div>
+            <button class="btn btn-primary" onclick="downloadTemplate()" style="width:100%">⬇️ تحميل القالب</button>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon gold">💡</span>تعليمات الاستيراد</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="import-step">
+                <div class="import-step-num">1</div>
+                <div>
+                  <div class="import-step-title">حمّل القالب</div>
+                  <div class="import-step-desc">قم بتحميل قالب FYQ القياسي من الزر أعلاه</div>
+                </div>
+              </div>
+              <div class="import-step">
+                <div class="import-step-num">2</div>
+                <div>
+                  <div class="import-step-title">أدخل البيانات</div>
+                  <div class="import-step-desc">أدخل بياناتك المالية في الخلايا المحددة بالقالب</div>
+                </div>
+              </div>
+              <div class="import-step">
+                <div class="import-step-num">3</div>
+                <div>
+                  <div class="import-step-title">ارفع وطبّق</div>
+                  <div class="import-step-desc">ارفع الملف واضغط “تطبيق البيانات” لملء جميع الحقول</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Import Status -->
+        <div id="importStatus" style="display:none;margin-top:14px">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon green">✅</span>نتائج الاستيراد</div>
+            <div id="importStatusContent"></div>
+          </div>
+        </div>
+
+        <!-- Import Preview -->
+        <div id="importPreview" style="display:none;margin-top:14px">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon cyan">👁️</span>معاينة البيانات المستوردة</div>
+            <div id="importPreviewContent" class="import-preview"></div>
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-success" onclick="applyImportedData()">✅ تطبيق البيانات</button>
+              <button class="btn" onclick="cancelImport()">❌ إلغاء</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           SETTINGS
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-settings">
+        <div class="section-title"><span class="card-title-icon gold">⚙️</span> الإعدادات</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon gold">🏢</span>بيانات الشركة</div>
+            <div class="form-group"><label class="form-label">اسم الشركة</label><input class="form-input" id="set-company" type="text" placeholder="شركة نموذجية" value="شركة نموذجية"></div>
+            <div class="form-group"><label class="form-label">السجل التجاري</label><input class="form-input" id="set-cr" type="text" placeholder="1234567890"></div>
+            <div class="form-group">
+              <label class="form-label">القطاع</label>
+              <select class="form-input" id="set-sector">
+                <option>تجزئة</option><option>تصنيع</option><option>خدمات</option>
+                <option>عقارات</option><option>مالي</option><option>صحة</option>
+                <option>تقنية</option><option>طاقة</option><option>اتصالات</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">السنة المالية</label><input class="form-input" id="set-year" type="text" placeholder="2026" value="2026"></div>
+            <div class="form-group">
+              <label class="form-label">العملة</label>
+              <select class="form-input" id="set-currency">
+                <option>ريال</option><option>دولار</option><option>يورو</option>
+                <option>جنيه</option><option>درهم</option><option>دينار</option>
+              </select>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon cyan">👤</span>بيانات معد التقرير</div>
+            <div class="form-group"><label class="form-label">اسم المعد</label><input class="form-input" id="set-preparer" type="text" placeholder="محمد أحمد"></div>
+            <div class="form-group"><label class="form-label">المسمى الوظيفي</label><input class="form-input" id="set-title" type="text" placeholder="محلل مالي"></div>
+            <div class="form-group"><label class="form-label">تاريخ التقرير</label><input class="form-input" id="set-date" type="date"></div>
+            <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" id="set-notes" rows="3" placeholder="ملاحظات إضافية..."></textarea></div>
+            <button class="btn btn-success" style="width:100%;margin-top:8px" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon orange">📊</span>معايير الأداء والتنبيهات</div>
+            <div class="form-group"><label class="form-label">الحد الأدنى لنسبة التداول</label><input class="form-input" id="set-min-cr" type="number" placeholder="1.0" value="1.0" step="0.1"></div>
+            <div class="form-group"><label class="form-label">الحد الأقصى لنسبة الدين/الملكية</label><input class="form-input" id="set-max-de" type="number" placeholder="2.0" value="2.0" step="0.1"></div>
+            <div class="form-group"><label class="form-label">الحد الأدنى لهامش صافي الدخل (%)</label><input class="form-input" id="set-min-nm" type="number" placeholder="5" value="5" step="0.5"></div>
+            <div class="form-group"><label class="form-label">الحد الأدنى لـ ROE (%)</label><input class="form-input" id="set-min-roe" type="number" placeholder="10" value="10" step="0.5"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon teal">🎯</span>إعدادات التقييم الافتراضية</div>
+            <div class="form-group"><label class="form-label">معدل الخصم WACC الافتراضي (%)</label><input class="form-input" id="set-default-wacc" type="number" placeholder="8" value="8" step="0.5"></div>
+            <div class="form-group"><label class="form-label">معدل النمو الدائم الافتراضي (%)</label><input class="form-input" id="set-default-tg" type="number" placeholder="2.5" value="2.5" step="0.5"></div>
+            <div class="form-group"><label class="form-label">مضاعف P/E الافتراضي</label><input class="form-input" id="set-default-pe" type="number" placeholder="12" value="12" step="0.5"></div>
+            <div class="form-group"><label class="form-label">مضاعف P/S الافتراضي</label><input class="form-input" id="set-default-ps" type="number" placeholder="2" value="2" step="0.1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           ABOUT FYQ
+           ══════════════════════════════════════ -->
+      <div class="page" id="page-about">
+        <section class="fyq-about-hero">
+          <div class="fyq-about-eyebrow">ABOUT FYQ</div>
+          <h1>FYQ Financial Intelligence Platform</h1>
+          <p>منصة مالية تنفيذية تجمع استيراد البيانات والتحقق والذكاء المالي والتقارير في مساحة عمل واحدة مصممة لدعم القرار بثقة ووضوح.</p>
+          <div class="fyq-about-meta">
+            <span>FINANCIAL DATA</span><span>VALIDATION</span><span>DECISION INTELLIGENCE</span><span>EXECUTIVE REPORTING</span>
+          </div>
+        </section>
+
+        <section class="fyq-about-grid">
+          <article class="fyq-about-card fyq-about-card-wide">
+            <span class="fyq-about-kicker">THE PLATFORM</span>
+            <h2>ذكاء مالي من البيانات إلى القرار</h2>
+            <p>يوحّد FYQ Financial Intelligence Platform القوائم المالية والتحقق المنهجي والمؤشرات والتشخيص التنفيذي في تجربة عمل مترابطة. تحافظ المنصة على مسار التحليل القائم، من استيراد Excel الذكي إلى لوحة المؤشرات ومحرك التحليل المالي والتقارير التنفيذية.</p>
+          </article>
+          <article class="fyq-about-card">
+            <span class="fyq-about-kicker">DESIGNED FOR</span>
+            <h2>فرق المالية والمحاسبة</h2>
+            <p>واجهة مركّزة، قراءة أسرع للمؤشرات، ومخرجات منظمة تساعد على مراجعة الأداء المالي ومشاركة الرؤى مع الإدارة.</p>
+          </article>
+          <article class="fyq-about-card">
+            <span class="fyq-about-kicker">PLATFORM PRINCIPLES</span>
+            <h2>وضوح، اتساق، وقابلية تدقيق</h2>
+            <p>تُعرض النتائج ضمن سياق واضح مع المحافظة على منهجية الحساب والتحقق وجودة البيانات قبل إصدار التقارير.</p>
+          </article>
+        </section>
+
+        <section class="fyq-about-owner" aria-label="حقوق الملكية والتواصل">
+          <div>
+            <span class="fyq-about-kicker">DEVELOPED BY</span>
+            <strong>SANAD ALANZI</strong>
+          </div>
+          <div>
+            <span class="fyq-about-kicker">CONTACT</span>
+            <a href="tel:0579599909" dir="ltr">0579599909</a>
+          </div>
+          <div class="fyq-about-owner-mark">FYQ</div>
+        </section>
+      </div>
+
+      <footer class="fyq-global-footer" aria-label="FYQ Financial Intelligence Platform footer">
+        <div class="fyq-footer-brand">
+          <strong>FYQ Financial Intelligence Platform</strong>
+          <span>Financial intelligence for confident decisions</span>
+        </div>
+        <div class="fyq-footer-credit">
+          <span>Developed by <b>SANAD ALANZI</b></span>
+          <span>Contact <a href="tel:0579599909" dir="ltr">0579599909</a></span>
+        </div>
+        <div class="fyq-footer-rights">© All Rights Reserved</div>
+      </footer>
+
+    </div><!-- /content -->
+  </div><!-- /main-area -->
+</div><!-- /app-layout -->
+
+<script src="/static/js/mizan.js?v=7.2.1"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+FYQ v7.10.1 VISUAL AUDIT
+- Independent rerun of QA: 50/50 PASS.
+- Re-imported FYQ_Realistic_Balanced_Test_2025 and re-exported PDF.
+- Reviewed all 9 rendered PDF pages as images.
+- Fixed missing sector value on cover for Latin sector names.
+- Rebuilt executive margin strip as isolated cells; EBITDA Margin can no longer disappear under RTL shaping.
+- Rendered EVA invested-capital basis as an explicit LTR formula.
+- Rebuilt Altman equation and zone thresholds as structured rows to avoid RTL/LTR corruption.
+- Removed slash/Z-score bidi corruption from risk narratives.
+- Financial formulas and FYQ-SCORE logic unchanged from v7.10.

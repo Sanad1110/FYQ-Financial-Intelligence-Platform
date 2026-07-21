@@ -1,0 +1,25 @@
+FYQ v7.4 — FINANCIAL INTEGRITY BUILD
+
+Core fixes:
+- Arabic cash-flow aliases fixed: تغيير/تغير/التغير, المدينين/الذمم المدينة, الدائنين/الذمم الدائنة.
+- Settings metadata import fixed: company, fiscal year, currency, sector.
+- Cash-flow lineage preserved field-by-field in UI and API.
+- beginning_cash is now applied to the cash-flow form.
+- Explicit outflows normalized consistently: CapEx, debt repayment, dividends.
+- Import status now separates mapped, validated, and missing critical fields.
+- Unbalanced balance sheets block final executive analysis.
+- Legacy scorecard marks unbalanced results PROVISIONAL instead of FINAL.
+- PDF score label reflects provisional status when data integrity fails.
+- Golden financial regression dataset added to QA.
+
+Golden expected results:
+CFO = 644,000
+CFI = -250,000
+CFF = -130,000
+Net change = 264,000
+Ending cash = 864,000
+FCF = 394,000
+Company = شركة ألفا التجارية
+Fiscal year = 2025
+
+QA: PASS 26/26

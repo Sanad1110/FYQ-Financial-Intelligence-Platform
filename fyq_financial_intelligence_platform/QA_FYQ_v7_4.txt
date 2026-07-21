@@ -1,0 +1,38 @@
+2026-07-13 00:22:04,158 | INFO | request_id=bd6e019cc9 | smart_import file=Import EN.xlsx fields=3 confidence=100.0
+2026-07-13 00:22:04,167 | INFO | request_id=ac90af4dc3 | smart_import file=Import AR.xlsx fields=3 confidence=100.0
+2026-07-13 00:22:04,177 | INFO | request_id=f67c1048de | smart_import file=Import multi-year.xlsx fields=3 confidence=100.0
+2026-07-13 00:22:04,185 | INFO | request_id=6dfb6e34dd | smart_import file=Import reversed.xlsx fields=3 confidence=100.0
+2026-07-13 00:22:04,192 | INFO | request_id=4ea2a15278 | smart_import file=Import text nums.xlsx fields=3 confidence=100.0
+2026-07-13 00:22:04,214 | INFO | request_id=5f41004af5 | smart_import file=Import mixed.xlsx fields=6 confidence=100.0
+2026-07-13 00:22:04,297 | INFO | request_id=46c685a9f5 | smart_import file=MizanPro_Test_Data.xlsx fields=34 confidence=98.9
+
+FYQ v7 QA RESULTS
+========================================================
+PASS | 200 | Home
+PASS | 200 | Income
+PASS | 200 | Balance
+PASS | 200 | Cash flow
+PASS | 200 | Validation
+PASS | 200 | Executive summary E2E
+PASS | 200 | Summary has narrative
+PASS | 422 | Unbalanced summary blocked
+PASS | 422 | Unbalanced critical surfaced
+PASS | 200 | PDF Arabic executive report
+PASS | 200 | PDF embedded report
+PASS | 200 | Scenario
+PASS | 200 | Benchmark
+PASS | 200 | Import EN
+PASS | 200 | Import AR
+PASS | 200 | Import multi-year
+PASS | 200 | Import reversed
+PASS | 200 | Import text nums
+PASS | 200 | Import mixed
+PASS | 200 | Golden import ready
+PASS | 200 | Golden CF lineage
+PASS | 200 | Golden CF exact
+PASS | 200 | Golden cash truth
+PASS | 200 | Golden integrity blocks unbalanced
+PASS | 200 | Golden balance exception
+PASS | 400 | Reject fake XLSX
+========================================================
+PASS 26/26

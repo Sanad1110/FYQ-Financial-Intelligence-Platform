@@ -1,0 +1,12 @@
+FYQ v7.7 — Financial Integrity Release
+
+1. Added independent cross-statement cash reconciliation:
+   Balance-sheet cash vs cash-flow ending cash.
+   Material mismatch raises CASH_RECONCILIATION_MISMATCH and blocks final scoring.
+2. Unified integrity gate across executive summary, PDF scorecard, advanced analytics and risk analysis.
+3. Balance-dependent KPIs are not published when the accounting equation fails; only independent income-statement margins remain provisional.
+4. Standardized ROIC as NOPAT / (Equity + interest-bearing debt - cash).
+5. Added governed PDF cash reconciliation disclosure and remediation priority.
+6. Fixed PDF exporter tax-rate normalization for percent payloads (20 -> 0.20), preventing material tax/net-income distortion.
+7. Golden dataset regression: detects both -1,000,000 balance gap and -264,000 cash reconciliation gap.
+8. QA: PASS 37/37.

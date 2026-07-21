@@ -1,0 +1,9 @@
+FYQ v7.8 — Methodology Governance
+
+- Altman changed from mislabeled 1968 public-company formula to explicit Z-double-prime private non-manufacturing model.
+- Z-double-prime formula and classification thresholds are disclosed in outputs.
+- Altman is explicitly described as a quantitative distress-screening indicator, not a standalone bankruptcy opinion.
+- FYQ Financial Score is explicitly identified as a proprietary internal scoring model.
+- FYQ-SCORE-1.0 weights disclosed: liquidity 20, profitability 25, operating efficiency 20, leverage 20, cash flow 15.
+- Margin labels standardized: gross profit margin, operating profit margin, net income margin.
+- API, UI, PDF, Excel and PPT terminology aligned.

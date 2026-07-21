@@ -1,0 +1,8 @@
+FYQ v7.5 — Financial Semantics & Governance Fix
+- Correct interest-bearing debt ratios.
+- Distinguish debt ratios from total-liability ratios.
+- Executive summary degrades to PROVISIONAL on balance mismatch instead of failing.
+- Final health score is withheld when the balance sheet fails integrity.
+- DuPont, EVA and Altman Z-Score are withheld until balance integrity passes.
+- Imported company/year/currency/sector are persisted immediately to application state.
+- Golden cash-flow values retained: CFO 644000, CFI -250000, CFF -130000, FCF 394000, ending cash 864000.

@@ -1,0 +1,23 @@
+FYQ v7.10 — ENGINE & REPORT AUDIT RELEASE
+
+Core corrections
+- Unified ROIC and EVA invested-capital definition:
+  Equity + interest-bearing debt - cash and cash equivalents.
+- EVA now discloses its capital base and uses the same denominator lineage as ROIC.
+- FYQ Score test count is derived dynamically from the actual score audit trail.
+- FYQ-SCORE-1.2 contains 18 named quantitative tests; unnamed tests fail fast.
+
+PDF governance and rendering
+- Arabic-only display labels added for mixed acronym KPI names that previously rendered incompletely.
+- ROE, ROA and EBITDA score-test names no longer disappear in Arabic PDF tables.
+- Score result fractions use a Latin font so 7 / 8 cannot render as 78.
+- Score methodology moved from mixed RTL/LTR prose into a structured governance table.
+- Ratio table compacted and executive interpretation reduced to four key readings.
+- Stable page breaks added before advanced analysis, scorecard and risk sections.
+
+Regression
+- Original QA retained.
+- Realistic balanced Saudi retail fixture added.
+- Verified: statements reconcile, ending cash reconciles, score 83/100, 18/18 named tests,
+  invested capital 8,364,000, EVA 1,003,600, Altman Z-double-prime 5.001.
+- QA PASS 50/50.

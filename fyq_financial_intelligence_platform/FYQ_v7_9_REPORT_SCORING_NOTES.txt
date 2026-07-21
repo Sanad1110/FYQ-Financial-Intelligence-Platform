@@ -1,0 +1,10 @@
+FYQ v7.9 — REPORT & SCORING GOVERNANCE
+
+- FYQ-SCORE-1.1 diagnostic scoring governance.
+- Removed credit-rating-like A/A+/B labels; replaced with S1-S5 performance bands.
+- Added reading confidence and quantitative test count.
+- Added 17-test score basis table to PDF for explainability.
+- Split Arabic and English technical labels in advanced analytics to reduce mixed-direction RTL artifacts.
+- Simplified DuPont/EVA/Altman Arabic headings.
+- Removed emoji glyphs from PDF risk rows to avoid tofu boxes.
+- Financial formulas and statement integrity gates are unchanged.

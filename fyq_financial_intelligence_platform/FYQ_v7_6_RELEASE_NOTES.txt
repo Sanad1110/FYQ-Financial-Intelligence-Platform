@@ -1,0 +1,7 @@
+FYQ v7.6 — Executive Governance & PDF RTL Fix
+- Decision Core payload shadowing fixed.
+- Provisional executive summary remains informative.
+- Cash-flow lineage and beginning cash preserved.
+- Net Debt to EBITDA label corrected.
+- PDF sections 8 and 9 separated.
+- Mixed RTL governance blocks replaced with structured tables.

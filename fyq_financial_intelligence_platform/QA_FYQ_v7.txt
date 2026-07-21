@@ -1,0 +1,19 @@
+FYQ v7.3 INSTITUTIONAL REPORT RELEASE
+========================================================
+QA: PASS 20/20
+
+PDF release validation:
+- Formal institutional report identity
+- No educational-use wording
+- No internal-use wording
+- No advisory/disclaimer paragraph
+- No consultant-review recommendation
+- No blank or near-empty generated pages in reference export
+- Reference report reduced from 12 pages to 7 populated pages
+- Arabic RTL and embedded Arabic fonts
+- Latin FYQ identity rendered with Latin font
+- Executive cover rebuilt
+- Institutional header/footer system
+- Compact TOC integrated with executive content flow
+- Dark financial tables with readable labels
+- Executive financial sections retained
