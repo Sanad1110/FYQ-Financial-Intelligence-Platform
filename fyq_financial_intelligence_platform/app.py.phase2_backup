@@ -54,22 +54,12 @@ from database import client_store
 from routes.financial import financial_bp
 from routes.engines import engines_bp
 from routes.dashboard import dashboard_bp
-from routes.scenario import scenario_bp
-from routes.benchmark import benchmark_bp
-from routes.clients import clients_bp
-from routes.projects import projects_bp
-from routes.valuation import valuation_bp
 
 app = Flask(__name__)
 
 app.register_blueprint(financial_bp)
 app.register_blueprint(engines_bp)
 app.register_blueprint(dashboard_bp)
-app.register_blueprint(scenario_bp)
-app.register_blueprint(benchmark_bp)
-app.register_blueprint(clients_bp)
-app.register_blueprint(projects_bp)
-app.register_blueprint(valuation_bp)
 
 app.config['MAX_CONTENT_LENGTH'] = 12 * 1024 * 1024  # 12 MB
 app.config['JSON_SORT_KEYS'] = False
@@ -761,6 +751,36 @@ def api_analysis_get(aid):
         return jsonify(analysis)
     except Exception as e: return api_error('تعذر استرجاع التحليل.',400,e)
 
+# ─── Business Valuation ───
+@app.route('/api/valuation', methods=['POST'])
+def api_valuation():
+    try:
+        d = request.get_json(silent=True) or {}
+        inc_d = d.get('income') or {}
+        bal_d = d.get('balance') or {}
+        cf_d = d.get('cashflow') or {}
+        val_d = d.get('valuation') or {}
+        
+        if not inc_d or not bal_d:
+            return jsonify({'error': 'يلزم احتساب قائمة الدخل والميزانية أولاً'}), 400
+        
+        inc = build_income(inc_d)
+        bs = build_balance(bal_d)
+        cf = build_cashflow(cf_d) if cf_d else None
+        
+        valuation = BusinessValuation(inc, bs, cf)
+        result = valuation.calculate_valuation(
+            wacc=val_d.get('wacc', 0.08),
+            terminal_growth=val_d.get('terminal_growth', 0.025),
+            forecast_years=int(val_d.get('forecast_years', 5)),
+            revenue_growth=val_d.get('revenue_growth', 0.05),
+            pe_multiple=val_d.get('pe_multiple', 12),
+            ps_multiple=val_d.get('ps_multiple', 2)
+        )
+        
+        return jsonify(result)
+    except Exception as e:
+        return api_error('تعذر معالجة طلب التقييم. تحقق من صحة البيانات المدخلة.', 400, e)
 
 # ─── Export Excel ───
 @app.route('/api/export/excel', methods=['POST'])
