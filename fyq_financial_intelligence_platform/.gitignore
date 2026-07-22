@@ -1,1 +1,31 @@
 *.db
+
+# Test files
+FYQ_TEST_*
+*_TEST.*
+test.xlsx
+full.xlsx
+company_test.xlsx
+manufacturing_result*.json
+result.json
+
+# Generated reports
+FYQ_REPORT_TEST.*
+
+# Temporary scripts
+fix_*.py
+repair_*.py
+clean_*.py
+remove_*.py
+move_*.py
+force_*.py
+add_*.py
+
+# Backups
+*.backup.py
+*.backup
+*.bak
+
+# Python cache
+__pycache__/
+*.pyc

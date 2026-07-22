@@ -4,7 +4,6 @@ FYQ DATABASE LAYER — طبقة البيانات المتقدمة
 ORM Models | Persistence | Query Interface | Data Integrity
 """
 
-import os
 import sqlite3
 import json
 from datetime import datetime
@@ -182,14 +181,7 @@ class AuditLog:
 class DatabaseManager:
     """مدير قاعدة البيانات المركزي"""
     
-    def __init__(self, db_path=None):
-
-        if db_path is None:
-            db_path = os.path.join(
-                os.path.dirname(__file__),
-                "fyq_clients.db"
-            )
-
+    def __init__(self, db_path: str = 'fyq.db'):
         self.db_path = db_path
         self.init_database()
     

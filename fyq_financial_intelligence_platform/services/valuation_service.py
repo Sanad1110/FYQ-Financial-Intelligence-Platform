@@ -16,10 +16,11 @@ class ValuationService:
         cashflow=None,
         **kwargs
     ):
+
         valuation = BusinessValuation(
             income,
             balance,
-            cashflow,
+            cashflow
         )
 
         return valuation.calculate_valuation(

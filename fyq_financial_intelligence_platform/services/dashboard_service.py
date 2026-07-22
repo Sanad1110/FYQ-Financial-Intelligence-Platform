@@ -17,7 +17,6 @@ from core.financial_engine import (
 
 class DashboardService:
 
-
     @staticmethod
     def analyze(data):
 
@@ -33,7 +32,7 @@ class DashboardService:
 
         if data.get("cashflow"):
             cf = build_cashflow(
-                data.get("cashflow")
+                data.get("cashflow", {})
             )
 
 
@@ -41,22 +40,35 @@ class DashboardService:
             inc,
             bs,
             cf,
-            data.get("sector", "")
+            data.get("sector", ""),
         )
 
 
         score = FinancialScorecard(
-            ratios
-        )
+            inc,
+            bs,
+            cf,
+        ).calculate()
 
 
         risk = RiskAnalysis(
-            ratios
+            inc,
+            bs,
         )
 
 
         return {
+            "score": score,
+            "risk": {
+                "overall": risk.overall_risk_level(),
+                "items": risk.get_all_risks(),
+            },
+            "balance_status": {
+                "is_balanced": bs.is_balanced,
+                "difference": round(
+                    bs.total_assets - bs.total_liabilities_equity,
+                    2,
+                ),
+            },
             "ratios": ratios.get_all_ratios(),
-            "score": score.get_score(),
-            "risk": risk.analyze(),
         }

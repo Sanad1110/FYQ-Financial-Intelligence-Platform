@@ -26,6 +26,7 @@ def sf(d, key, default=0.0):
 
     try:
         value = float(v)
+
     except (TypeError, ValueError):
         raise ValueError(
             f"القيمة في الحقل {key} يجب أن تكون رقمية"
@@ -54,6 +55,7 @@ def build_income(d):
 
     return IncomeStatement(
         revenue=sf(d, "revenue"),
+
         cost_of_goods_sold=
             sf(d, "cogs")
             or sf(d, "cost_of_goods_sold"),
@@ -133,10 +135,7 @@ def _first_num(d, *keys, default=0.0):
             "",
             "null"
         ):
-            return sf(
-                d,
-                key
-            )
+            return sf(d, key)
 
     return default
 
@@ -146,25 +145,95 @@ def build_cashflow(d):
 
     return CashFlow(
 
-        operating_cash_flow=
+        net_income=
             _first_num(
                 d,
-                "operating_cash_flow",
-                "ocf"
+                "net_income"
             ),
 
-        investing_cash_flow=
+        depreciation_add_back=
             _first_num(
                 d,
-                "investing_cash_flow",
-                "icf"
+                "depreciation_add_back",
+                "depreciation"
             ),
 
-        financing_cash_flow=
+        change_in_receivables=
             _first_num(
                 d,
-                "financing_cash_flow",
-                "fcf"
+                "change_in_receivables"
+            ),
+
+        change_in_inventory=
+            _first_num(
+                d,
+                "change_in_inventory"
+            ),
+
+        change_in_payables=
+            _first_num(
+                d,
+                "change_in_payables"
+            ),
+
+        other_operating=
+            _first_num(
+                d,
+                "other_operating"
+            ),
+
+        capex=
+            _first_num(
+                d,
+                "capex"
+            ),
+
+        asset_sales=
+            _first_num(
+                d,
+                "asset_sales"
+            ),
+
+        other_investing=
+            _first_num(
+                d,
+                "other_investing"
+            ),
+
+        debt_issued=
+            _first_num(
+                d,
+                "debt_issued"
+            ),
+
+        debt_repaid=
+            _first_num(
+                d,
+                "debt_repaid"
+            ),
+
+        dividends_paid=
+            _first_num(
+                d,
+                "dividends_paid"
+            ),
+
+        equity_issued=
+            _first_num(
+                d,
+                "equity_issued"
+            ),
+
+        other_financing=
+            _first_num(
+                d,
+                "other_financing"
+            ),
+
+        beginning_cash=
+            _first_num(
+                d,
+                "beginning_cash"
             )
     )
 
