@@ -1,0 +1,25 @@
+{
+  "income": {
+    "revenue": 1000000,
+    "cogs": 400000,
+    "opex": 200000,
+    "depreciation": 50000,
+    "interest": 20000,
+    "tax_rate": 15
+  },
+  "balance": {
+    "cash": 200000,
+    "accounts_receivable": 150000,
+    "inventory": 100000,
+    "fixed_assets": 500000,
+    "accounts_payable": 100000,
+    "long_term_debt": 300000,
+    "paid_in_capital": 400000,
+    "retained_earnings": 150000
+  },
+  "cashflow": {
+    "net_income": 280500,
+    "depreciation_add_back": 50000,
+    "beginning_cash": 200000
+  }
+}
