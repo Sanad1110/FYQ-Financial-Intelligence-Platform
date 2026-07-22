@@ -6,14 +6,14 @@ from core.decision_intelligence import (
     benchmark_compare,
     sector_benchmark_reference,
     canonical,
-    js
+    js,
 )
 
 
 class BenchmarkService:
 
     @staticmethod
-    def canonical_metrics(
+    def build_metrics(
         income,
         balance,
         cashflow
@@ -26,15 +26,22 @@ class BenchmarkService:
             )
         )
 
+
     @staticmethod
-    def compare(metrics, benchmark):
+    def compare(
+        metrics,
+        benchmark
+    ):
         return benchmark_compare(
             metrics,
             benchmark
         )
 
+
     @staticmethod
-    def reference(sector):
+    def reference(
+        sector
+    ):
         return sector_benchmark_reference(
             sector
         )

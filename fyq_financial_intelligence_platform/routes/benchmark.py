@@ -1,46 +1,56 @@
 from flask import Blueprint, request, jsonify
 
-from core.decision_intelligence import (
-    js,
-    canonical,
-    benchmark_compare,
-    sector_benchmark_reference,
-)
+from services.benchmark_service import BenchmarkService
 from utils.api import api_error
 
-benchmark_bp = Blueprint("benchmark", __name__)
+
+benchmark_bp = Blueprint(
+    "benchmark",
+    __name__
+)
 
 
-@benchmark_bp.route("/api/benchmark", methods=["POST"])
+@benchmark_bp.route(
+    "/api/benchmark",
+    methods=["POST"]
+)
 def api_benchmark():
+
     try:
 
-        d = request.get_json(silent=True) or {}
+        d = request.get_json(
+            silent=True
+        ) or {}
 
-        metrics = js(
-            canonical(
-                d.get("income") or {},
-                d.get("balance") or {},
-                d.get("cashflow") or {},
-            )
+
+        metrics = BenchmarkService.build_metrics(
+            d.get("income") or {},
+            d.get("balance") or {},
+            d.get("cashflow") or {},
         )
+
 
         use_industry = bool(
             d.get("use_industry_reference")
         )
 
+
         reference = None
+
 
         if use_industry:
 
-            reference = sector_benchmark_reference(
+            reference = BenchmarkService.reference(
                 d.get("sector", "")
             )
 
+
             if not reference:
                 return jsonify({
-                    "error": "لا يتوفر مرجع قطاعي مدمج للصناعة المختارة."
+                    "error":
+                    "لا يتوفر مرجع قطاعي مدمج للصناعة المختارة."
                 }), 400
+
 
             benchmark = reference.get(
                 "benchmark",
@@ -54,6 +64,7 @@ def api_benchmark():
             market = reference.get(
                 "market"
             )
+
 
         else:
 
@@ -71,10 +82,12 @@ def api_benchmark():
                 ""
             )
 
-        comparison = benchmark_compare(
+
+        comparison = BenchmarkService.compare(
             metrics,
             benchmark
         )
+
 
         return jsonify({
             "comparison": comparison,
@@ -83,7 +96,9 @@ def api_benchmark():
             "reference": reference,
         })
 
+
     except Exception as e:
+
         return api_error(
             "تعذر إنشاء المقارنة المرجعية.",
             400,
